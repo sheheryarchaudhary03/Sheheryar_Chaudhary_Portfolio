@@ -222,8 +222,9 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.6 }}
       >
-        <a href={`mailto:${siteConfig.email}`} className="text-lg font-medium text-foreground underline-offset-4 hover:underline">
-          {siteConfig.email}
+        <a href={`mailto:${siteConfig.email}`} className="text-lg font-medium break-words text-foreground underline-offset-4 hover:underline">
+          {siteConfig.email.split("@")[0]}
+          <wbr />@{siteConfig.email.split("@")[1]}
         </a>
         <ul className="flex gap-2">
           {siteConfig.socials.map((social) => {

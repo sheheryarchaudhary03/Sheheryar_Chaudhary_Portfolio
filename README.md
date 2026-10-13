@@ -21,12 +21,13 @@ npm run dev          # http://localhost:3000
 
 ## Before you launch — checklist
 
-1. **Personal details** — `content/site.ts`: email, LinkedIn / Instagram / GitHub URLs, site URL.
+1. **Personal details** — `content/site.ts`: email and GitHub are set; LinkedIn and Instagram still point to the platform homepages.
 2. **Testimonials** — `content/profile.ts` → `testimonials` are **placeholder copy**. Replace with real, approved quotes.
 3. **Case-study figures** — `content/projects.ts`: years and the `outcome.metrics` of Sultan Yakhni Pulao, MealWheelz and Digivora are marked `placeholder: true`. Replace with verified numbers.
 4. **Résumé PDF** — `public/resume.pdf` is generated from the `/resume` page. After editing your details, open `/resume`, click **Print / Save as PDF**, and overwrite `public/resume.pdf`.
 5. **Contact form** — copy `.env.example` to `.env.local` and set `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` (a sender on a domain verified in [Resend](https://resend.com)). Without them the form validates normally and shows an "email me directly" fallback.
-6. **Domain** — set `NEXT_PUBLIC_SITE_URL` in your host's environment (used for canonical URLs, sitemap, Open Graph).
+6. **Domain** — on Vercel the site URL comes from the production domain automatically (custom domains included). `NEXT_PUBLIC_SITE_URL` overrides it if set.
+7. **Analytics** — `@vercel/analytics` and `@vercel/speed-insights` are installed. Turn them on once in the Vercel dashboard: Project → Analytics → Enable, and Project → Speed Insights → Enable.
 
 ## Project structure
 

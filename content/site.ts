@@ -1,7 +1,17 @@
 /**
+ * Public site URL: explicit env var first, then Vercel's production domain
+ * (picks up a custom domain automatically), then local dev.
+ */
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
+
+/**
  * Single source of truth for personal details.
  *
- * TODO before launch: replace the email and social URLs below with your own.
+ * TODO: replace the LinkedIn and Instagram URLs below with your profiles.
  */
 export const siteConfig = {
   name: "Sheheryar Chaudhary",
@@ -32,8 +42,8 @@ export const siteConfig = {
   location: "Lahore, Pakistan",
   timeZone: "Asia/Karachi",
   timeZoneLabel: "PKT",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://sheheryarchaudhary.com",
-  email: "hello@sheheryarchaudhary.com",
+  url: siteUrl,
+  email: "sheheryarchaudhary03@gmail.com",
   resume: {
     pdf: "/resume.pdf",
     page: "/resume",
@@ -45,7 +55,7 @@ export const siteConfig = {
   socials: [
     { label: "LinkedIn", href: "https://www.linkedin.com/" },
     { label: "Instagram", href: "https://www.instagram.com/" },
-    { label: "GitHub", href: "https://github.com/" },
+    { label: "GitHub", href: "https://github.com/sheheryarchaudhary03" },
   ],
 } as const;
 

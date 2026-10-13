@@ -25,7 +25,8 @@ const jsonLd = {
       address: { "@type": "PostalAddress", addressLocality: "Lahore", addressCountry: "PK" },
       worksFor: { "@type": "Organization", name: siteConfig.currently.company },
       knowsAbout: ["Brand Identity", "UI/UX Design", "Graphic Design", "Marketing Strategy", "Social Media Marketing", "Packaging Design", "Creative Direction"],
-      sameAs: siteConfig.socials.map((s) => s.href),
+      // Only real profile URLs (not bare platform homepages) belong in sameAs.
+      sameAs: siteConfig.socials.map((s) => s.href).filter((href) => new URL(href).pathname.length > 1),
     },
     {
       "@type": "WebSite",

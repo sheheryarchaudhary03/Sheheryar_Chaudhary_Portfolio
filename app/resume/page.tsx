@@ -42,12 +42,10 @@ export default function ResumePage() {
       </div>
 
       <article className="mx-auto max-w-[210mm] rounded-[1.25rem] bg-white px-7 py-10 text-[13px] leading-relaxed text-[#222] shadow-[0_40px_120px_-40px_rgb(0_0_0/0.35)] ring-1 ring-black/5 sm:px-14 sm:py-14 print:max-w-none print:rounded-none print:p-0 print:shadow-none print:ring-0">
-        <header className="flex flex-col gap-6 border-b border-black/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-[34px] leading-none font-semibold tracking-[-0.04em] text-[#111]">{siteConfig.name}</h1>
-            <p className="mt-2.5 text-[14px] font-medium text-[#111]">{siteConfig.roles.join(" · ")}</p>
-          </div>
-          <ul className="space-y-0.5 text-[12px] text-[#555] sm:text-right">
+        <header className="border-b border-black/10 pb-8">
+          <h1 className="text-[34px] leading-none font-semibold tracking-[-0.04em] text-[#111]">{siteConfig.name}</h1>
+          <p className="mt-2.5 text-[14px] font-medium text-[#111]">{siteConfig.roles.join(" · ")}</p>
+          <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[12px] whitespace-nowrap text-[#555]">
             <li>{siteConfig.location}</li>
             <li>
               <a href={`mailto:${siteConfig.email}`} className="underline-offset-2 hover:underline">

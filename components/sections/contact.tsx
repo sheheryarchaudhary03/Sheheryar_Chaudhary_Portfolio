@@ -50,9 +50,11 @@ export function Contact() {
                   <div className="mt-3 flex items-center gap-3">
                     <a
                       href={`mailto:${siteConfig.email}`}
-                      className="group relative min-w-0 truncate text-[clamp(0.95rem,4vw,1.6rem)] font-semibold tracking-[-0.025em] text-white"
+                      className="group relative min-w-0 text-[clamp(1rem,4vw,1.6rem)] leading-tight font-semibold tracking-[-0.025em] break-words text-white"
                     >
-                      {siteConfig.email}
+                      {/* Allow a line break before "@" on narrow phones instead of truncating. */}
+                      {siteConfig.email.split("@")[0]}
+                      <wbr />@{siteConfig.email.split("@")[1]}
                       <span className="absolute inset-x-0 -bottom-1 h-px origin-left scale-x-0 bg-brand transition-transform duration-500 ease-out-expo group-hover:scale-x-100" />
                     </a>
                     <CopyEmail email={siteConfig.email} />
