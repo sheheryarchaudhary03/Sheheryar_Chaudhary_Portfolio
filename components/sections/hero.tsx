@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { ArrowDown, Download, MapPin } from "lucide-react";
 
 import { LocalTime } from "@/components/effects/local-time";
@@ -11,6 +11,7 @@ import { Counter } from "@/components/motion/counter";
 import { Magnetic } from "@/components/motion/magnetic";
 import { SplitText } from "@/components/motion/split-text";
 import { useIntro } from "@/components/providers/intro";
+import { SceneSlot } from "@/components/three/scene-slot";
 import { Button } from "@/components/ui/button";
 import { stats } from "@/content/profile";
 import { siteConfig } from "@/content/site";
@@ -23,35 +24,23 @@ const fadeUp: Variants = {
 
 export function Hero() {
   const { ready } = useIntro();
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.15]);
-  const orbY = useTransform(scrollYProgress, [0, 1], ["0%", "45%"]);
-  const orbScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
-
   const state = ready ? "show" : "hidden";
+  const portrait = siteConfig.portrait;
 
   return (
     <section
-      ref={ref}
+      id="hero"
       aria-labelledby="hero-title"
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-[calc(var(--header-h)+1.5rem)]"
+      className="relative isolate overflow-hidden pt-[calc(var(--header-h)+0.5rem)]"
     >
-      {/* Background: masked grid, parallax glow orbs */}
+      {/* Soft clay glow — visible before (or without) WebGL */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="bg-grid mask-radial absolute inset-0" />
-        <motion.div
-          style={{ y: orbY, scale: orbScale }}
-          className="absolute -top-[18%] -right-[12%] size-[min(78vw,920px)] rounded-full bg-[radial-gradient(circle,var(--glow),transparent_62%)]"
-        />
-        <motion.div
-          style={{ y: orbY }}
-          className="absolute -bottom-[30%] -left-[18%] size-[min(70vw,760px)] rounded-full bg-[radial-gradient(circle,rgb(17_17_17/0.05),transparent_65%)] dark:bg-[radial-gradient(circle,rgb(255_255_255/0.05),transparent_65%)]"
-        />
+        <div className="absolute top-[62%] left-1/2 size-[min(80vw,720px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_40%_35%,var(--brand-soft),transparent_65%)] opacity-40 blur-3xl" />
       </div>
 
-      <div className="container-page flex flex-1 flex-col justify-between gap-12 pb-8 sm:gap-16 sm:pb-10">
+      <SceneSlot scene="hero" rootId="hero" anchorId="hero-stage" centerpiece={!portrait} className="absolute inset-0" />
+
+      <div className="container-page relative flex min-h-[calc(100svh-var(--header-h))] flex-col pb-8">
         <motion.div
           initial="hidden"
           animate={state}
@@ -59,7 +48,7 @@ export function Hero() {
           custom={0.05}
           className="flex flex-wrap items-center justify-between gap-3"
         >
-          <span className="glass inline-flex items-center gap-2.5 rounded-full border border-border py-1.5 pr-4 pl-2 text-[13px] font-medium text-foreground">
+          <span className="clay inline-flex items-center gap-2.5 rounded-full py-1.5 pr-4 pl-2 text-[13px] font-medium text-foreground">
             <span className="relative flex size-5 items-center justify-center">
               <span className="absolute size-2 animate-pulse-ring rounded-full bg-brand" />
               <span className="relative size-2 rounded-full bg-brand" />
@@ -74,89 +63,131 @@ export function Hero() {
           </p>
         </motion.div>
 
-        <motion.div style={{ y: contentY, opacity: contentOpacity }}>
-          <motion.p
+        <h1 id="hero-title" className="mt-8 text-center sm:mt-6">
+          <span className="sr-only">
+            {siteConfig.name} — {siteConfig.roles.join(", ")}
+          </span>
+          <span
+            aria-hidden="true"
+            className="block text-[clamp(2.4rem,6vw,5.75rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-foreground"
+          >
+            <SplitText play={ready} delay={0.1} lines={["Hi, I'm Sheheryar"]} />
+          </span>
+          <motion.span
+            aria-hidden="true"
             initial="hidden"
             animate={state}
             variants={fadeUp}
-            custom={0.1}
-            className="mb-6 flex flex-wrap items-baseline gap-x-2 text-[clamp(1rem,1.6vw,1.25rem)] text-muted-foreground sm:mb-8"
+            custom={0.45}
+            className="serif-italic block text-[clamp(2.9rem,8.6vw,8.25rem)] leading-[0.95] text-brand"
           >
-            <span className="font-medium text-foreground">{siteConfig.name}</span>
-            <span aria-hidden="true" className="text-border-strong">
-              —
-            </span>
-            <RotatingWords words={siteConfig.roles} className="text-foreground/80" />
-          </motion.p>
+            <RotatingWords words={siteConfig.heroRoles} />
+          </motion.span>
+        </h1>
 
-          <h1 id="hero-title" className="text-[clamp(2.6rem,8.4vw,8.75rem)] text-display text-balance">
-            <SplitText
-              play={ready}
-              delay={0.15}
-              stagger={0.055}
-              lines={[
-                "Creating brands,",
-                { text: "digital experiences", className: "text-muted-foreground" },
-                "& marketing that",
-                "drive results.",
-              ]}
-            />
-          </h1>
-        </motion.div>
+        <div className="relative mt-2 grid flex-1 items-end gap-8 lg:mt-0 lg:grid-cols-[1fr_minmax(0,1.2fr)_1fr] lg:gap-6">
+          {/* Stage: the 3D sculpture (or portrait) is anchored to this box */}
+          <div
+            id="hero-stage"
+            className="relative order-1 mx-auto aspect-[1/0.92] w-full max-w-[34rem] lg:order-2 lg:max-w-none"
+          >
+            {portrait && (
+              <Image
+                src={portrait.src}
+                width={portrait.width}
+                height={portrait.height}
+                alt={`Portrait of ${siteConfig.name}`}
+                priority
+                sizes="(min-width: 1024px) 34vw, 90vw"
+                className="absolute inset-x-0 bottom-0 mx-auto h-full w-auto object-contain object-bottom"
+              />
+            )}
+          </div>
 
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-          <motion.p
+          <motion.dl
             initial="hidden"
             animate={state}
             variants={fadeUp}
-            custom={0.75}
-            className="max-w-md text-[17px] leading-relaxed text-pretty text-muted-foreground lg:col-span-5"
+            custom={0.9}
+            className="clay order-3 grid max-w-sm grid-cols-2 gap-x-6 gap-y-5 rounded-[1.75rem] p-5 sm:p-6 lg:order-1 lg:mb-8 lg:self-end"
           >
-            I combine branding, UI/UX, graphic design and marketing strategy — with business thinking at the core — to
-            build brands people remember and choose.
-          </motion.p>
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex flex-col gap-1">
+                <dt className="order-2 text-[12px] leading-snug text-muted-foreground">{stat.label}</dt>
+                <dd className="order-1 text-[clamp(1.8rem,2.6vw,2.4rem)] leading-none font-semibold tracking-[-0.05em] text-foreground">
+                  <Counter value={stat.value} suffix={stat.suffix} play={ready} />
+                </dd>
+              </div>
+            ))}
+          </motion.dl>
+
           <motion.div
             initial="hidden"
             animate={state}
             variants={fadeUp}
-            custom={0.85}
-            className="flex flex-wrap gap-3 lg:col-span-7 lg:justify-end"
+            custom={0.8}
+            className="order-2 lg:order-3 lg:mb-8 lg:self-end"
           >
-            <Magnetic>
-              <Button asChild size="lg">
-                <Link href="/#work">
-                  View selected work
-                  <ArrowDown className="transition-transform duration-500 ease-out-expo group-hover/button:translate-y-0.5" />
-                </Link>
-              </Button>
-            </Magnetic>
-            <Magnetic>
-              <Button asChild size="lg" variant="glass" className="border-border-strong">
-                <a href={siteConfig.resume.pdf} download="Sheheryar-Chaudhary-Resume.pdf">
-                  Download résumé
-                  <Download className="transition-transform duration-500 ease-out-expo group-hover/button:translate-y-0.5" />
-                </a>
-              </Button>
-            </Magnetic>
+            <p className="max-w-md text-[clamp(1.15rem,1.55vw,1.4rem)] leading-snug font-medium tracking-[-0.02em] text-balance text-foreground">
+              {siteConfig.tagline}
+            </p>
+            <p className="mt-3 max-w-md text-[15px] leading-relaxed text-pretty text-muted-foreground">
+              Branding, UI/UX, graphic design and marketing strategy — with business thinking at the core.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Magnetic>
+                <Button asChild size="lg">
+                  <Link href="/#work">
+                    View selected work
+                    <ArrowDown className="transition-transform duration-500 ease-out-expo group-hover/button:translate-y-0.5" />
+                  </Link>
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button asChild size="lg" variant="glass">
+                  <a href={siteConfig.resume.pdf} download="Sheheryar-Chaudhary-Resume.pdf">
+                    Résumé
+                    <Download className="transition-transform duration-500 ease-out-expo group-hover/button:translate-y-0.5" />
+                  </a>
+                </Button>
+              </Magnetic>
+            </div>
           </motion.div>
         </div>
 
-        <motion.dl
+        <motion.div
           initial="hidden"
           animate={state}
           variants={fadeUp}
-          custom={0.95}
-          className="grid grid-cols-2 gap-x-6 gap-y-8 border-t border-border pt-8 md:grid-cols-4"
+          custom={1}
+          className="mt-10 flex flex-col items-center gap-4"
         >
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col gap-1.5">
-              <dt className="order-2 max-w-[14rem] text-[13px] leading-snug text-muted-foreground">{stat.label}</dt>
-              <dd className="order-1 text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-semibold tracking-[-0.05em] text-foreground">
-                <Counter value={stat.value} suffix={stat.suffix} play={ready} />
-              </dd>
-            </div>
-          ))}
-        </motion.dl>
+          <p className="eyebrow">Brands I&apos;ve shaped</p>
+          <ul className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            {siteConfig.brands.map((brand) => (
+              <li key={brand.name}>
+                {/* Logos sit on a fixed light chip so they read in both themes. */}
+                <span className="flex h-14 items-center justify-center rounded-2xl bg-[#f7f8f2]/95 px-5 shadow-[var(--clay-shadow)] ring-1 ring-black/5 transition-transform duration-500 ease-out-expo hover:-translate-y-1 sm:h-16 sm:px-6">
+                  {brand.logo ? (
+                    <Image
+                      src={brand.logo.src}
+                      width={brand.logo.width}
+                      height={brand.logo.height}
+                      alt={`${brand.name} logo`}
+                      sizes="96px"
+                      className="h-9 w-auto sm:h-11"
+                    />
+                  ) : (
+                    <span className="text-[1.35rem] font-semibold tracking-[-0.055em] text-[#0b0b0f] lowercase">
+                      {brand.name}
+                      <span className="text-[#6d5bff]">.</span>
+                    </span>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
       </div>
     </section>
   );

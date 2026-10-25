@@ -86,7 +86,7 @@ export function Footer() {
       </div>
 
       <div aria-hidden="true" className="relative mt-20 overflow-hidden select-none sm:mt-28">
-        <p className="container-page -mb-[0.16em] bg-linear-to-b from-foreground from-30% to-foreground/0 to-95% bg-clip-text text-center text-[18.5vw] leading-[0.92] font-semibold tracking-[-0.065em] whitespace-nowrap text-transparent">
+        <p className="container-page -mb-[0.16em] bg-linear-to-b from-foreground from-30% to-foreground/0 to-95% bg-clip-text serif-italic text-center text-[21vw] leading-[0.95] whitespace-nowrap text-transparent">
             {siteConfig.firstName}
         </p>
       </div>

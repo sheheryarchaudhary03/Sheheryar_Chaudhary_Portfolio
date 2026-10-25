@@ -85,7 +85,7 @@ export function Cursor() {
         transition={{ type: "spring", stiffness: 380, damping: 30, mass: 0.5 }}
         style={{
           mixBlendMode: isView ? "normal" : "difference",
-          backgroundColor: isView ? "#F1692D" : variant === "link" ? "#ffffff" : "transparent",
+          backgroundColor: isView ? "var(--brand)" : variant === "link" ? "#ffffff" : "transparent",
           border: isView || variant === "link" ? "0px solid transparent" : "1.5px solid #ffffff",
         }}
       >
@@ -97,7 +97,7 @@ export function Cursor() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.6 }}
               transition={{ duration: 0.25 }}
-              className="text-[13px] font-semibold tracking-[-0.01em] text-[#111111]"
+              className="text-[13px] font-semibold tracking-[-0.01em] text-brand-foreground"
             >
               {label}
             </motion.span>

@@ -8,10 +8,11 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { ScrollText } from "@/components/motion/scroll-text";
 import { about } from "@/content/profile";
 import { siteConfig } from "@/content/site";
+import { SceneSlot } from "@/components/three/scene-slot";
 
 export function DisciplinesMarquee() {
   return (
-    <div className="border-y border-border py-6 sm:py-8">
+    <div className="clay-band border-y border-border py-6 sm:py-8">
       <Marquee
         items={about.disciplines}
         duration={60}
@@ -23,8 +24,9 @@ export function DisciplinesMarquee() {
 
 export function About() {
   return (
-    <section id="about" aria-labelledby="about-title" className="py-28 sm:py-36">
-      <div className="container-page">
+    <section id="about" aria-labelledby="about-title" className="relative py-28 sm:py-36">
+      <SceneSlot scene="ambient" seed={2} count={6} className="absolute inset-0" />
+      <div className="container-page relative">
         <Reveal y={12}>
           <h2 id="about-title" className="eyebrow flex items-center gap-3">
             <span className="text-foreground tabular-nums">(01)</span>
@@ -52,7 +54,7 @@ export function About() {
           <Reveal className="lg:col-span-4" delay={0.1}>
             <aside
               aria-label="Profile"
-              className="glass relative overflow-hidden rounded-[1.75rem] border border-border p-7 lg:sticky lg:top-28"
+              className="clay relative overflow-hidden rounded-[2rem] p-7 lg:sticky lg:top-28"
             >
               <div aria-hidden="true" className="absolute -top-20 -right-20 size-56 rounded-full bg-[radial-gradient(circle,var(--glow),transparent_65%)]" />
               <div className="relative flex items-center gap-4">
@@ -94,12 +96,12 @@ export function About() {
           </Reveal>
           <RevealGroup
             stagger={0.035}
-            className="mt-8 grid grid-cols-1 border-t border-border sm:grid-cols-2 lg:grid-cols-4"
+            className="clay mt-8 grid grid-cols-1 overflow-hidden rounded-[2rem] px-6 sm:grid-cols-2 sm:px-8 lg:grid-cols-4"
           >
             {about.disciplines.map((discipline, i) => (
               <RevealItem
                 key={discipline}
-                className="group flex items-baseline gap-4 border-b border-border py-5 sm:pr-6"
+                className="group flex items-baseline gap-4 border-b border-border py-5 sm:pr-6 [&:nth-last-child(-n+4)]:lg:border-b-0"
               >
                 <span className="text-xs text-muted-foreground tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                 <span className="text-[17px] font-medium tracking-[-0.015em] text-foreground transition-transform duration-500 ease-out-expo group-hover:translate-x-1">

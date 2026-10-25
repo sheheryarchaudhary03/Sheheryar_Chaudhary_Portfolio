@@ -36,7 +36,7 @@ export function Testimonials() {
           id="testimonials-title"
           index="07"
           eyebrow="Testimonials"
-          title={["Kind words from", "the people I work with."]}
+          title={["Kind words from", { text: "the people I work with.", className: "serif-italic text-brand" }]}
         />
 
         <div
@@ -44,7 +44,7 @@ export function Testimonials() {
           role="region"
           aria-roledescription="carousel"
           aria-label="Testimonials"
-          className="mt-16 sm:mt-20"
+          className="clay mt-16 rounded-[2.25rem] p-6 sm:mt-20 sm:p-10 lg:p-14"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}

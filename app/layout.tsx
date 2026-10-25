@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -7,6 +7,7 @@ import { Cursor } from "@/components/effects/cursor";
 import { IntroLoader } from "@/components/effects/intro-loader";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { WorldLoader } from "@/components/three/world-loader";
 import { Providers } from "@/components/providers";
 import { introScript } from "@/components/providers/intro";
 import { siteConfig } from "@/content/site";
@@ -16,6 +17,14 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
   display: "swap",
 });
 
@@ -53,15 +62,15 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#edf0e6" },
+    { media: "(prefers-color-scheme: dark)", color: "#101710" },
   ],
   colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: introScript }} />
         <noscript>
@@ -79,6 +88,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               Skip to content
             </a>
           </nav>
+          <WorldLoader />
           <IntroLoader />
           <Cursor />
           <Header />

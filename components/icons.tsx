@@ -62,7 +62,7 @@ export function Monogram({ className }: { className?: string }) {
       >
         SC
       </text>
-      <circle cx="31" cy="9" r="3" fill="#F1692D" />
+      <circle cx="31" cy="9" r="3" className="fill-brand-soft" />
     </svg>
   );
 }

@@ -1,17 +1,20 @@
 import { SpotlightCard } from "@/components/effects/spotlight-card";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/section-heading";
+import { SceneSlot } from "@/components/three/scene-slot";
 import { services } from "@/content/profile";
+import { cn } from "@/lib/utils";
 
 export function Services() {
   return (
     <section id="services" aria-labelledby="services-title" className="relative py-28 sm:py-36">
-      <div className="container-page">
+      <SceneSlot scene="ambient" seed={3} count={6} className="absolute inset-0" />
+      <div className="container-page relative">
         <SectionHeading
           id="services-title"
           index="03"
           eyebrow="Services"
-          title={["How I help", "brands grow."]}
+          title={["How I help", { text: "brands grow.", className: "serif-italic text-brand" }]}
           description="Strategy, design and execution under one roof — so the idea that wins the pitch is the one that ships."
         />
 
@@ -19,13 +22,21 @@ export function Services() {
           {services.map((service, i) => {
             const Icon = service.icon;
             return (
-              <RevealItem key={service.title} className="h-full">
+              <RevealItem
+                key={service.title}
+                className={cn(
+                  "h-full",
+                  // A lone final card spans the row instead of sitting orphaned.
+                  i === services.length - 1 && services.length % 2 === 1 && "md:col-span-2",
+                  i === services.length - 1 && services.length % 3 === 1 && "lg:col-span-3",
+                )}
+              >
                 <SpotlightCard
                   as="article"
-                  className="group glass flex h-full flex-col rounded-[1.75rem] border border-border p-7 transition-[transform,box-shadow,border-color] duration-500 ease-out-expo hover:-translate-y-1.5 hover:border-border-strong hover:shadow-[0_30px_70px_-35px_rgb(0_0_0/0.35)] sm:p-8"
+                  className="group clay flex h-full flex-col rounded-[2rem] p-7 transition-transform duration-500 ease-out-expo hover:-translate-y-2 sm:p-8"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="flex size-12 items-center justify-center rounded-2xl bg-foreground text-background transition-colors duration-500 group-hover:bg-brand group-hover:text-brand-foreground">
+                    <span className="flex size-12 items-center justify-center rounded-2xl bg-forest text-forest-foreground shadow-[inset_0_1px_0_rgb(255_255_255/0.15),0_10px_20px_-10px_rgb(20_32_18/0.6)] transition-colors duration-500 group-hover:bg-brand group-hover:text-brand-foreground">
                       <Icon className="size-5" aria-hidden="true" strokeWidth={1.75} />
                     </span>
                     <span className="text-xs text-muted-foreground tabular-nums">0{i + 1}</span>

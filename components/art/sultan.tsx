@@ -1,4 +1,4 @@
-import { useId } from "react";
+import Image from "next/image";
 
 import { ArtCanvas, cq, Glow, Stage } from "./primitives";
 
@@ -8,19 +8,17 @@ const IVORY = "#F3EADB";
 const CLOVE = "#2A1A14";
 const SERIF = "ui-serif, Georgia, 'Times New Roman', serif";
 
-const safeId = (id: string) => id.replace(/[^a-zA-Z0-9_-]/g, "");
-
 /* ------------------------------------------------------------------ */
 /* Building blocks                                                     */
 /* ------------------------------------------------------------------ */
 
-/** The Sultan seal — crest with a Mughal dome and circular legend. */
+/**
+ * The real Sultan emblem (turban badge with the SULTAN banner). Colour props
+ * are kept so call sites stay readable, but the logo always renders as-is.
+ */
 function Seal({
   className,
   style,
-  base = POMEGRANATE,
-  ink = IVORY,
-  accent = SAFFRON,
 }: {
   className?: string;
   style?: React.CSSProperties;
@@ -28,31 +26,16 @@ function Seal({
   ink?: string;
   accent?: string;
 }) {
-  const ring = `sultan-ring-${safeId(useId())}`;
   return (
-    <svg viewBox="0 0 200 200" className={className} style={style} aria-hidden="true">
-      <defs>
-        <path id={ring} d="M100 100 m-72 0 a72 72 0 1 1 144 0 a72 72 0 1 1 -144 0" />
-      </defs>
-      <circle cx="100" cy="100" r="97" fill={base} />
-      <circle cx="100" cy="100" r="89" fill="none" stroke={accent} strokeWidth="1.6" />
-      <circle cx="100" cy="100" r="56" fill="none" stroke={accent} strokeWidth="1.2" />
-      <text fontFamily={SERIF} fontSize="13.5" letterSpacing="4.2" fill={ink}>
-        <textPath href={`#${ring}`} startOffset="0">
-          SULTAN · YAKHNI PULAO · LAHORE · SLOW COOKED ·
-        </textPath>
-      </text>
-      {/* dome */}
-      <line x1="100" y1="58" x2="100" y2="66" stroke={accent} strokeWidth="1.6" />
-      <circle cx="100" cy="56" r="2.4" fill={accent} />
-      <path d="M100 66 C105 74 120 79 120 95 C120 103 114 107 114 107 H86 C86 107 80 103 80 95 C80 79 95 74 100 66 Z" fill={accent} />
-      <rect x="82" y="108" width="36" height="4" rx="1" fill={accent} />
-      <rect x="86" y="113" width="28" height="13" fill={accent} opacity="0.55" />
-      <path d="M95 126 V119 Q100 114 105 119 V126 Z" fill={base} />
-      <text x="100" y="140" textAnchor="middle" fontFamily={SERIF} fontSize="9" letterSpacing="3" fill={ink}>
-        EST. LAHORE
-      </text>
-    </svg>
+    <Image
+      src="/brands/sultan-logo.webp"
+      width={150}
+      height={150}
+      alt=""
+      sizes="160px"
+      className={className}
+      style={{ height: "auto", filter: "drop-shadow(0 0.6cqw 1cqw rgb(42 26 20 / 0.25))", ...style }}
+    />
   );
 }
 

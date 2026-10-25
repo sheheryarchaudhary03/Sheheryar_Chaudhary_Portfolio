@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 function Heading({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="mb-3 flex items-center gap-3 text-[10.5px] font-semibold tracking-[0.16em] text-[#6b6b6b] uppercase">
-      <span className="size-1.5 rounded-full bg-[#F1692D]" aria-hidden="true" />
+      <span className="size-1.5 rounded-full bg-[#4d7a3f]" aria-hidden="true" />
       {children}
     </h2>
   );
@@ -78,7 +78,7 @@ export default function ResumePage() {
           </div>
           <p className="mt-0.5 text-[11.5px] text-[#6b6b6b]">{experience.companyLegal}</p>
           <p className="mt-3 text-[#333]">{experience.summary}</p>
-          <ul className="mt-3 list-disc space-y-1 pl-4 text-[#333] marker:text-[#F1692D]">
+          <ul className="mt-3 list-disc space-y-1 pl-4 text-[#333] marker:text-[#4d7a3f]">
             {experience.highlights.map((h) => (
               <li key={h}>{h}</li>
             ))}

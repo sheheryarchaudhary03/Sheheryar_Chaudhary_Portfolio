@@ -5,19 +5,11 @@ import {
   Megaphone,
   Package,
   PenTool,
+  Workflow,
   type LucideIcon,
 } from "lucide-react";
 
-/* ------------------------------------------------------------------ */
-/* Hero stats — real counts drawn from the content on this site.       */
-/* ------------------------------------------------------------------ */
-
-export const stats = [
-  { value: 16, suffix: "", label: "Creative & marketing disciplines" },
-  { value: 4, suffix: "", label: "Flagship brand case studies" },
-  { value: 18, suffix: "", label: "Responsibilities owned end to end" },
-  { value: 8, suffix: "", label: "Tools in the daily stack" },
-] as const;
+import { projects } from "./projects";
 
 /* ------------------------------------------------------------------ */
 /* About                                                               */
@@ -159,6 +151,13 @@ export const services: Service[] = [
     deliverables: ["Video editing", "Motion graphics", "Pitch decks", "Company portfolios"],
     icon: Clapperboard,
   },
+  {
+    title: "Web Tools & Automation",
+    description:
+      "Feedback systems, admin portals, live web tools and Google Sheets automations that take repetitive work off a team's plate — designed, built and shipped.",
+    deliverables: ["Feedback forms", "Admin portals", "Apps Script automation", "Live web tools"],
+    icon: Workflow,
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -176,6 +175,7 @@ export const skills = [
   { title: "Presentation Design", detail: "Decks that persuade boards, buyers and tender panels." },
   { title: "Packaging Design", detail: "Structure, finish and shelf presence that sells." },
   { title: "Creative Direction", detail: "One clear vision held across every touchpoint." },
+  { title: "Workflow Automation", detail: "Apps Script, Sheets and small web tools that remove manual work." },
 ] as const;
 
 export const tools = [
@@ -187,6 +187,8 @@ export const tools = [
   { name: "ChatGPT", short: "Gp", use: "Ideation & copy drafts" },
   { name: "Adobe Firefly", short: "Ff", use: "Generative imagery" },
   { name: "AI Design Tools", short: "AI", use: "Workflow acceleration" },
+  { name: "Google Apps Script", short: "As", use: "Sheets & form automation" },
+  { name: "Vercel & GitHub", short: "Vc", use: "Shipping live web tools" },
 ] as const;
 
 /* ------------------------------------------------------------------ */
@@ -251,3 +253,14 @@ export const testimonials = [
     context: "Food-tech Startup",
   },
 ] as const;
+
+/* ------------------------------------------------------------------ */
+/* Hero stats — counted from the content above, never typed by hand.   */
+/* ------------------------------------------------------------------ */
+
+export const stats = [
+  { value: about.disciplines.length, suffix: "", label: "Creative, marketing & digital disciplines" },
+  { value: projects.length, suffix: "", label: "Case studies across brand, product & web" },
+  { value: experience.groups.reduce((n, g) => n + g.items.length, 0), suffix: "", label: "Responsibilities owned end to end" },
+  { value: tools.length, suffix: "", label: "Tools in the daily stack" },
+];

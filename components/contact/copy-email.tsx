@@ -22,7 +22,7 @@ export function CopyEmail({ email }: { email: string }) {
     <button
       type="button"
       onClick={copy}
-      className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:bg-white hover:text-[#111]"
+      className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-border-strong text-foreground transition-colors hover:bg-foreground hover:text-background"
     >
       {copied ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
       <span className="sr-only">{copied ? "Copied" : "Copy email address"}</span>

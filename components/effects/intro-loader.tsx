@@ -49,7 +49,7 @@ export function IntroLoader() {
           key="intro"
           role="status"
           aria-label="Loading"
-          className="intro-loader fixed inset-0 z-[100] flex flex-col justify-between bg-[#0a0a0a] p-5 text-white sm:p-10"
+          className="intro-loader fixed inset-0 z-[100] flex flex-col justify-between bg-[#0f170f] p-5 text-[#eef3e7] sm:p-10"
           exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
           initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
@@ -90,7 +90,7 @@ export function IntroLoader() {
             <span className="relative block h-px flex-1 overflow-hidden bg-white/12">
               <span
                 ref={barRef}
-                className="absolute inset-0 origin-left scale-x-0 bg-[#F1692D]"
+                className="absolute inset-0 origin-left scale-x-0 bg-[#a9d18d]"
               />
             </span>
             <span

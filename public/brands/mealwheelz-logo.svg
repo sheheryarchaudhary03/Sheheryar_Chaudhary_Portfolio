@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" role="img" aria-label="MealWheelz">
+  <g fill="none" stroke="#F5891F" stroke-linecap="round" stroke-width="4">
+    <path d="M9 30h17M4 38h21M11 46h15"/>
+  </g>
+  <circle cx="62" cy="13" r="4.2" fill="#F5891F"/>
+  <path d="M30 51a32 33 0 0 1 64 0z" fill="#F5891F"/>
+  <path d="M77 23a27 27 0 0 1 12 24" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="3.2"/>
+  <rect x="27" y="53" width="70" height="8" rx="3" fill="#1E1E1E"/>
+  <circle cx="44" cy="66" r="7.5" fill="#1E1E1E"/>
+  <circle cx="44" cy="66" r="2.8" fill="#fff"/>
+  <circle cx="80" cy="66" r="7.5" fill="#1E1E1E"/>
+  <circle cx="80" cy="66" r="2.8" fill="#fff"/>
+</svg>

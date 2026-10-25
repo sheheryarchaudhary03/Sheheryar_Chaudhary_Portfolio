@@ -113,7 +113,8 @@ function ProjectCard({ item, index }: { item: ProjectGridItem; index: number }) 
         data-cursor-label="View"
         className="group block rounded-[1.75rem]"
       >
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] border border-border bg-muted transition-[transform,box-shadow] duration-700 ease-out-expo group-hover:-translate-y-1.5 group-hover:shadow-[0_40px_90px_-45px_rgb(0_0_0/0.55)]">
+        <div className="clay rounded-[2rem] p-2 transition-transform duration-700 ease-out-expo group-hover:-translate-y-2.5">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[1.6rem] bg-muted">
           <motion.div style={{ y }} className="absolute -inset-[6%]">
             <div className="h-full w-full transition-transform duration-[1.4s] ease-out-expo group-hover:scale-[1.045]">
               {item.cover}
@@ -135,8 +136,13 @@ function ProjectCard({ item, index }: { item: ProjectGridItem; index: number }) 
             ))}
           </ul>
         </div>
+        </div>
+        <div
+          aria-hidden="true"
+          className="mx-auto mt-3 h-5 w-[72%] rounded-[50%] bg-[radial-gradient(closest-side,rgb(20_32_18/0.28),transparent)] transition-all duration-700 ease-out-expo group-hover:w-[58%] group-hover:opacity-60 dark:bg-[radial-gradient(closest-side,rgb(0_0_0/0.6),transparent)]"
+        />
 
-        <div className="mt-6 flex items-start justify-between gap-6">
+        <div className="mt-4 flex items-start justify-between gap-6">
           <div>
             <h3 className="text-[clamp(1.5rem,2.4vw,2rem)] leading-tight font-semibold tracking-[-0.035em]">{item.title}</h3>
             <p className="mt-2 text-[16px] leading-relaxed text-pretty text-muted-foreground">{item.tagline}</p>

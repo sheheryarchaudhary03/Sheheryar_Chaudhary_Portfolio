@@ -2,10 +2,13 @@ import { SplitText } from "@/components/motion/split-text";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
+type Line = string | { text: string; className?: string };
+
 type SectionHeadingProps = {
   index: string;
   eyebrow: string;
-  title: string[];
+  /** Lines of the title; pass { text, className: "serif-italic" } for an accent line. */
+  title: Line[];
   description?: string;
   className?: string;
   align?: "split" | "stack";

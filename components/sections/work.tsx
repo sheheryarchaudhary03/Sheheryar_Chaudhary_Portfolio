@@ -1,5 +1,6 @@
 import { projectArt } from "@/components/art";
 import { SectionHeading } from "@/components/section-heading";
+import { SceneSlot } from "@/components/three/scene-slot";
 import { ProjectGrid, type ProjectGridItem } from "@/components/work/project-grid";
 import { projects } from "@/content/projects";
 
@@ -21,14 +22,15 @@ export function Work() {
   });
 
   return (
-    <section id="work" aria-labelledby="work-title" className="py-28 sm:py-36">
-      <div className="container-page">
+    <section id="work" aria-labelledby="work-title" className="relative py-28 sm:py-36">
+      <SceneSlot scene="ambient" seed={5} count={8} className="absolute inset-0" />
+      <div className="container-page relative">
         <SectionHeading
           id="work-title"
           index="05"
           eyebrow="Selected Work"
-          title={["Selected", "case studies."]}
-          description="Four brands, four very different problems — each solved by starting with the business, not the brief."
+          title={["Selected", { text: "case studies.", className: "serif-italic text-brand" }]}
+          description="Brands, products and the tools behind them — each solved by starting with the business, not the brief."
           className="mb-12"
         />
         <ProjectGrid items={items} />

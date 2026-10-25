@@ -1,9 +1,12 @@
 import { useId } from "react";
+import Image from "next/image";
 
 import { ArtCanvas, cq, Glow, GridBackdrop, Phone, Stage, StatusBar } from "./primitives";
 
-const ORANGE = "#F1692D";
-const GRAPHITE = "#111111";
+// Sampled from the Ashwheelz logo.
+const ORANGE = "#FD8109";
+const GRAPHITE = "#211F1F";
+const ASH_GREY = "#4C4C4A";
 const ASPHALT = "#2B2B2B";
 const CONCRETE = "#F4F4F2";
 
@@ -11,11 +14,19 @@ const CONCRETE = "#F4F4F2";
 /* Building blocks                                                     */
 /* ------------------------------------------------------------------ */
 
-function Wordmark({ size, color = GRAPHITE }: { size: number; color?: string }) {
+const LOGO = { src: "/brands/ashwheelz-logo.webp", width: 963, height: 831 };
+
+/** The Ashwheelz logo (marks above the wordmark), sized by height in cqw. */
+function AshLogo({ height, style }: { height: number; style?: React.CSSProperties }) {
   return (
-    <span style={{ fontSize: cq(size), fontWeight: 700, letterSpacing: "-0.05em", color, lineHeight: 1 }}>
-      ashwheelz<span style={{ color: ORANGE }}>.</span>
-    </span>
+    <Image
+      src={LOGO.src}
+      width={LOGO.width}
+      height={LOGO.height}
+      alt=""
+      sizes="(min-width: 1024px) 220px, 140px"
+      style={{ height: cq(height), width: "auto", ...style }}
+    />
   );
 }
 
@@ -53,12 +64,11 @@ function Van({ className, style }: { className?: string; style?: React.CSSProper
       <rect x="18" y="140" width="358" height="12" rx="3" fill="#1c1c1c" />
       <rect x="352" y="130" width="26" height="12" rx="3" fill={ASPHALT} />
       {/* wordmark */}
-      <text x="42" y="80" fontFamily="var(--font-inter), system-ui, sans-serif" fontWeight="700" fontSize="36" letterSpacing="-2" fill={GRAPHITE}>
-        ashwheelz<tspan fill={ORANGE}>.</tspan>
-      </text>
-      <text x="44" y="100" fontFamily="var(--font-inter), system-ui, sans-serif" fontWeight="500" fontSize="9" letterSpacing="2.4" fill="#5f5f5b">
-        LOGISTICS · CONTRACTING
-      </text>
+      <image href={LOGO.src} x="34" y="24" width="104" height="90" preserveAspectRatio="xMidYMid meet" />
+      <g fontFamily="var(--font-inter), system-ui, sans-serif" fontWeight="600" fontSize="10.5" letterSpacing="2.2" fill={ASH_GREY}>
+        <text x="152" y="62">LOGISTICS &amp;</text>
+        <text x="152" y="78">CONTRACTING</text>
+      </g>
       {/* wheels */}
       {[82, 322].map((cx) => (
         <g key={cx}>
@@ -92,22 +102,22 @@ function BusinessCard({
 
   if (side === "front") {
     return (
-      <div className="absolute flex flex-col justify-between overflow-hidden" style={{ ...shared, background: GRAPHITE, padding: cq(width * 0.08) }}>
-        <Wordmark size={width * 0.11} color="#fff" />
-        <div className="absolute right-0 bottom-0" style={{ width: "38%", height: "100%", background: `linear-gradient(135deg, transparent 50%, ${ORANGE} 50%)` }} />
-        <span style={{ fontSize: cq(width * 0.032), color: "rgb(255 255 255 / 0.5)", letterSpacing: "0.2em" }}>ASHWHEELZ.COM</span>
+      <div className="absolute flex flex-col justify-between overflow-hidden" style={{ ...shared, background: CONCRETE, padding: cq(width * 0.08) }}>
+        <AshLogo height={width * 0.3} />
+        <div className="absolute right-0 bottom-0" style={{ width: "34%", height: "100%", background: `linear-gradient(135deg, transparent 50%, ${ORANGE} 50%)` }} />
+        <span className="relative" style={{ fontSize: cq(width * 0.032), color: ASH_GREY, letterSpacing: "0.2em" }}>ASHWHEELZ.COM</span>
       </div>
     );
   }
 
   return (
-    <div className="absolute flex flex-col justify-between" style={{ ...shared, background: "#fff", padding: cq(width * 0.08) }}>
+    <div className="absolute flex flex-col justify-between" style={{ ...shared, background: GRAPHITE, padding: cq(width * 0.08) }}>
       <div>
-        <div style={{ fontSize: cq(width * 0.06), fontWeight: 700, color: GRAPHITE, letterSpacing: "-0.03em" }}>Sheheryar Chaudhary</div>
-        <div style={{ fontSize: cq(width * 0.036), color: "#646464", marginTop: cq(width * 0.012) }}>Marketing & Creative Executive</div>
+        <div style={{ fontSize: cq(width * 0.06), fontWeight: 700, color: "#fff", letterSpacing: "-0.03em" }}>Sheheryar Chaudhary</div>
+        <div style={{ fontSize: cq(width * 0.036), color: "rgb(255 255 255 / 0.65)", marginTop: cq(width * 0.012) }}>Marketing & Creative Executive</div>
       </div>
       <div className="flex items-end justify-between">
-        <div style={{ fontSize: cq(width * 0.032), color: "#555", lineHeight: 1.6 }}>
+        <div style={{ fontSize: cq(width * 0.032), color: "rgb(255 255 255 / 0.6)", lineHeight: 1.6 }}>
           Lahore Office
           <br />
           Sales & Marketing
@@ -131,10 +141,10 @@ function IdCard({ width, style }: { width: number; style?: React.CSSProperties }
         ...style,
       }}
     >
-      <div className="relative flex flex-col items-center" style={{ background: GRAPHITE, height: "34%", paddingTop: cq(width * 0.08) }}>
-        <span className="rounded-full" style={{ width: cq(width * 0.22), height: cq(width * 0.045), background: "rgb(255 255 255 / 0.2)" }} />
-        <span style={{ marginTop: cq(width * 0.07) }}>
-          <Wordmark size={width * 0.13} color="#fff" />
+      <div className="relative flex flex-col items-center" style={{ background: CONCRETE, height: "38%", paddingTop: cq(width * 0.06) }}>
+        <span className="rounded-full" style={{ width: cq(width * 0.22), height: cq(width * 0.045), background: "rgb(0 0 0 / 0.12)" }} />
+        <span style={{ marginTop: cq(width * 0.04) }}>
+          <AshLogo height={width * 0.22} />
         </span>
         <div className="absolute inset-x-0 bottom-0" style={{ height: cq(width * 0.03), background: ORANGE }} />
       </div>
@@ -174,7 +184,7 @@ export function AshwheelzCover() {
   return (
     <ArtCanvas label="Ashwheelz fleet van in orange-and-white livery with business card and employee ID" style={{ background: "#121212" }}>
       <GridBackdrop />
-      <Glow color="rgb(241 105 45 / 0.35)" x={30} y={70} size={90} />
+      <Glow color="rgb(253 129 9 / 0.35)" x={30} y={70} size={90} />
       <Stage>
         <Van className="absolute" style={{ left: cq(8), top: cq(19), width: cq(58) }} />
         <BusinessCard side="back" width={27} style={{ right: cq(7), top: cq(9), transform: "rotate(7deg)" }} />
@@ -207,7 +217,7 @@ export function AshwheelzWireframe() {
           <path d="M380 52 H455 Q475 52 485 68 L515 120 Q528 128 528 145 V186 H380 Z" />
           <circle cx="95" cy="200" r="34" />
           <circle cx="455" cy="200" r="34" />
-          <rect x="28" y="40" width="210" height="62" strokeDasharray="6 5" stroke="#F1692D" />
+          <rect x="28" y="40" width="210" height="62" strokeDasharray="6 5" stroke="#FD8109" />
           <rect x="28" y="140" width="500" height="18" strokeDasharray="6 5" />
           <rect x="270" y="36" width="88" height="66" strokeDasharray="6 5" />
         </g>
@@ -261,7 +271,6 @@ export function AshwheelzLivery() {
     <ArtCanvas label="Ashwheelz van livery on the road" style={{ background: "linear-gradient(180deg, #ECEBE7 0%, #F6F6F3 62%, #1c1c1c 62%)" }}>
       <div className="absolute inset-x-0" style={{ top: "79%", height: cq(0.6), backgroundImage: "linear-gradient(to right, rgb(255 255 255 / 0.7) 50%, transparent 50%)", backgroundSize: `${cq(6)} 100%` }} />
       <div className="absolute" style={{ left: cq(5), bottom: cq(4) }}>
-        <Wordmark size={2.2} color="#fff" />
         <div style={{ fontSize: cq(1), color: "rgb(255 255 255 / 0.5)", letterSpacing: "0.2em", marginTop: cq(0.8) }}>FLEET LIVERY · SIDE ELEVATION</div>
       </div>
       <Van className="absolute left-1/2 -translate-x-1/2" style={{ bottom: "36%", width: cq(56) }} />
@@ -272,7 +281,7 @@ export function AshwheelzLivery() {
 export function AshwheelzStationery() {
   return (
     <ArtCanvas label="Ashwheelz business cards and employee ID card" style={{ background: "#171717" }}>
-      <Glow color="rgb(241 105 45 / 0.28)" x={70} y={30} size={80} />
+      <Glow color="rgb(253 129 9 / 0.28)" x={70} y={30} size={80} />
       <div className="absolute inset-0">
         <div className="absolute" style={{ left: "50%", top: "-4%", width: cq(1.2), height: "34%", background: `linear-gradient(${ORANGE}, #b84b1c)`, transform: "translateX(18cqw) rotate(4deg)" }} />
         <IdCard width={30} style={{ left: "50%", top: "26%", transform: "translateX(4cqw) rotate(4deg)" }} />
@@ -306,7 +315,7 @@ export function AshwheelzFeedback() {
       <Phone width={36} style={{ right: cq(8), top: cq(10) }} screen={CONCRETE}>
         <StatusBar />
         <div style={{ padding: "6cqw 8cqw" }}>
-          <Wordmark size={7} />
+          <AshLogo height={13} />
           <div style={{ fontSize: "9cqw", fontWeight: 700, letterSpacing: "-0.05em", lineHeight: 1, color: GRAPHITE, marginTop: "8cqw" }}>
             How was your delivery?
           </div>

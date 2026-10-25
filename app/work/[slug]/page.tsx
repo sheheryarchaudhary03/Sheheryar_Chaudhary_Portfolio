@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -8,6 +9,7 @@ import { Counter } from "@/components/motion/counter";
 import { Parallax } from "@/components/motion/parallax";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { SplitText } from "@/components/motion/split-text";
+import { SceneSlot } from "@/components/three/scene-slot";
 import { getAdjacentProjects, getProject, projects, type Project } from "@/content/projects";
 import { siteConfig } from "@/content/site";
 import { absoluteUrl, cn } from "@/lib/utils";
@@ -82,13 +84,26 @@ export default async function CaseStudyPage({ params }: Params) {
             </Link>
           </Reveal>
 
-          <Reveal y={10} delay={0.05} className="mt-10">
+          <Reveal y={10} delay={0.05} className="mt-10 flex flex-wrap items-center justify-between gap-4">
             <p className="eyebrow flex flex-wrap items-center gap-3">
               <span className="size-2 rounded-full" style={{ background: project.theme.accent }} aria-hidden="true" />
               {project.sector}
               <span aria-hidden="true">·</span>
               {project.year}
             </p>
+            {project.logo && (
+              <span className="flex h-16 items-center rounded-2xl bg-[#f7f8f2]/95 px-5 shadow-[var(--clay-shadow)] ring-1 ring-black/5 sm:h-20 sm:px-6">
+                <Image
+                  src={project.logo.src}
+                  width={project.logo.width}
+                  height={project.logo.height}
+                  alt={project.logo.alt}
+                  sizes="120px"
+                  priority
+                  className="h-11 w-auto sm:h-14"
+                />
+              </span>
+            )}
           </Reveal>
 
           <h1 className="mt-6 text-[clamp(3rem,10vw,9.5rem)] text-display">
@@ -101,6 +116,23 @@ export default async function CaseStudyPage({ params }: Params) {
                 {project.tagline}
               </p>
               <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-pretty text-muted-foreground">{project.summary}</p>
+              {project.links && project.links.length > 0 && (
+                <ul className="mt-7 flex flex-wrap gap-2">
+                  {project.links.map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="clay inline-flex h-11 items-center gap-2 rounded-full px-5 text-[14px] font-medium text-foreground transition-transform hover:-translate-y-0.5"
+                      >
+                        {link.label}
+                        <ArrowUpRight className="size-4" aria-hidden="true" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </Reveal>
 
             <Reveal delay={0.25} className="lg:col-span-5 lg:col-start-8">
@@ -124,13 +156,19 @@ export default async function CaseStudyPage({ params }: Params) {
           </div>
         </div>
 
-        <Reveal y={60} delay={0.2} amount={0.05} className="container-page mt-16 sm:mt-20">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] border border-border sm:aspect-[16/9] sm:rounded-[2.25rem]">
-            <Parallax offset={50} className="absolute -inset-y-[8%] inset-x-0">
-              <art.Cover />
-            </Parallax>
-          </div>
-        </Reveal>
+        <div className="container-page relative mt-16 sm:mt-20">
+          {/* Clay blobs peeking out from behind the framed cover */}
+          <SceneSlot scene="frame" className="absolute -inset-x-[2%] -inset-y-[12%] sm:-inset-x-[4%]" />
+          <Reveal y={60} delay={0.2} amount={0.05} className="relative">
+            <div className="clay rounded-[2rem] p-2 sm:rounded-[2.6rem] sm:p-3">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[1.6rem] sm:aspect-[16/9] sm:rounded-[2.1rem]">
+                <Parallax offset={50} className="absolute -inset-y-[8%] inset-x-0">
+                  <art.Cover />
+                </Parallax>
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </header>
 
       {/* ---------------------------------------------------------- */}
@@ -182,7 +220,7 @@ export default async function CaseStudyPage({ params }: Params) {
                 <div className="flex items-center gap-3">
                   <span
                     className="flex size-8 items-center justify-center rounded-full text-[12px] font-semibold text-white tabular-nums"
-                    style={{ background: i === project.process.length - 1 ? project.theme.accent : "#111111" }}
+                    style={{ background: i === project.process.length - 1 ? project.theme.accent : "var(--forest)" }}
                   >
                     {i + 1}
                   </span>
@@ -418,7 +456,7 @@ function DesignSystem({ project }: { project: Project }) {
         <Reveal delay={0.1} className="md:col-span-2">
           <div
             className="h-full rounded-[1.5rem] p-7 text-white ring-1 ring-white/10 ring-inset"
-            style={{ background: luminance(project.theme.background) < 0.05 ? project.theme.background : "#111111" }}
+            style={{ background: luminance(project.theme.background) < 0.05 ? project.theme.background : "var(--forest)" }}
           >
             <p className="flex items-center gap-2 text-xs font-medium tracking-[0.14em] text-white/50 uppercase">
               <span className="size-1.5 rounded-full" style={{ background: project.theme.accent }} aria-hidden="true" />

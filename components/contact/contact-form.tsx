@@ -82,7 +82,7 @@ export function ContactForm() {
       </Field>
 
       <fieldset aria-describedby={describedBy("projectType")} className="grid gap-2.5">
-        <legend className="mb-2.5 text-[13px] font-medium text-white/70">What do you need?</legend>
+        <legend className="mb-2.5 text-[13px] font-medium text-foreground/80">What do you need?</legend>
         <div className="flex flex-wrap gap-2">
           {projectTypes.map((type) => (
             <label key={type} className="cursor-pointer">
@@ -94,7 +94,7 @@ export function ContactForm() {
                 className="peer sr-only"
                 required
               />
-              <span className="inline-flex h-10 items-center rounded-full border border-white/12 bg-white/[0.03] px-4 text-[13.5px] text-white/75 transition-all duration-300 select-none peer-checked:border-brand peer-checked:bg-brand peer-checked:text-brand-foreground peer-focus-visible:ring-4 peer-focus-visible:ring-brand/30 hover:border-white/30 hover:text-white">
+              <span className="inline-flex h-10 items-center rounded-full border border-input bg-background/60 px-4 text-[13.5px] text-foreground/80 transition-all duration-300 select-none peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:ring-4 peer-focus-visible:ring-brand/30 hover:border-border-strong hover:text-foreground">
                 {type}
               </span>
             </label>
@@ -117,10 +117,10 @@ export function ContactForm() {
       </Field>
 
       <div className="mt-2 flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-center">
-        <p id="form-status" role="status" aria-live="polite" className={cn("text-[13px]", state.status === "error" ? "text-[#ff9b8a]" : "text-white/50")}>
+        <p id="form-status" role="status" aria-live="polite" className={cn("text-[13px]", state.status === "error" ? "text-destructive" : "text-muted-foreground")}>
           {state.status === "idle" ? "I usually reply within a couple of working days." : state.message}
         </p>
-        <Button type="submit" variant="brand" size="lg" disabled={pending} className="w-full sm:w-auto">
+        <Button type="submit" size="lg" disabled={pending} className="w-full sm:w-auto">
           {pending ? (
             <>
               Sending
@@ -155,7 +155,7 @@ function Field({
     <div className="grid gap-2.5">
       <Label htmlFor={htmlFor}>
         {label}
-        {optional && <span className="ml-1.5 text-white/40">(optional)</span>}
+        {optional && <span className="ml-1.5 text-muted-foreground">(optional)</span>}
       </Label>
       {children}
       {error && <ErrorText id={`${htmlFor}-error`}>{error}</ErrorText>}
@@ -165,7 +165,7 @@ function Field({
 
 function ErrorText({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <p id={id} className="text-[13px] text-[#ff9b8a]">
+    <p id={id} className="text-[13px] text-destructive">
       {children}
     </p>
   );

@@ -25,6 +25,21 @@ export const siteConfig = {
     "Brand Strategist",
   ],
   tagline: "Creating Brands, Digital Experiences & Marketing That Drive Results.",
+  /** Short titles for the hero's rotating serif line. */
+  heroRoles: ["Creative Executive", "Graphic Designer", "UI/UX Designer", "Brand Strategist"],
+  /**
+   * Cut-out portrait for the hero (transparent PNG in /public), e.g.
+   * { src: "/portrait.png", width: 1200, height: 1500 }. While null, the hero
+   * centres on the 3D clay sculpture instead.
+   */
+  portrait: null as null | { src: string; width: number; height: number },
+  /** Brands from the case studies, shown as wordmarks under the hero. */
+  brands: [
+    { name: "Ashwheelz", logo: { src: "/brands/ashwheelz-logo.webp", width: 963, height: 831 } },
+    { name: "Sultan Yakhni Pulao", logo: { src: "/brands/sultan-logo.webp", width: 150, height: 150 } },
+    { name: "MealWheelz", logo: { src: "/brands/mealwheelz-logo.svg", width: 120, height: 80 } },
+    { name: "Digivora", logo: null },
+  ] as { name: string; logo: { src: string; width: number; height: number } | null }[],
   description:
     "Sheheryar Chaudhary is a Lahore-based Marketing & Creative Executive, graphic designer, UI/UX designer and brand strategist who combines branding, product design and marketing strategy to build brands that perform.",
   keywords: [

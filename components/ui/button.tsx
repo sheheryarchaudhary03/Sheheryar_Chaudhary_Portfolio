@@ -10,13 +10,12 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-[0_1px_0_0_rgb(255_255_255/0.12)_inset,0_10px_30px_-12px_rgb(0_0_0/0.45)] hover:bg-primary/90",
+          "bg-primary text-primary-foreground shadow-[inset_0_1px_0_rgb(255_255_255/0.18),inset_0_-3px_8px_rgb(0_0_0/0.18),0_14px_30px_-14px_rgb(20_32_18/0.6)] hover:bg-primary/92 hover:-translate-y-0.5",
         brand:
-          "bg-brand text-brand-foreground shadow-[0_10px_30px_-12px_rgb(241_105_45/0.7)] hover:brightness-105",
+          "bg-brand text-brand-foreground shadow-[inset_0_1px_0_rgb(255_255_255/0.2),inset_0_-3px_8px_rgb(0_0_0/0.15),0_14px_30px_-14px_rgb(20_32_18/0.55)] hover:brightness-105 hover:-translate-y-0.5",
         outline:
           "border border-border-strong bg-transparent text-foreground hover:bg-accent hover:border-foreground/25",
-        glass:
-          "glass border border-border text-foreground hover:bg-glass-strong",
+        glass: "clay text-foreground hover:-translate-y-0.5",
         ghost: "text-foreground hover:bg-accent",
         link: "rounded-none px-0 text-foreground underline-offset-4 hover:underline",
       },
