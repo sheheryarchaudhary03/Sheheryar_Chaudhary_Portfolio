@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
@@ -58,7 +59,20 @@ export function About() {
             >
               <div aria-hidden="true" className="absolute -top-20 -right-20 size-56 rounded-full bg-[radial-gradient(circle,var(--glow),transparent_65%)]" />
               <div className="relative flex items-center gap-4">
-                <Monogram className="size-16 text-foreground" />
+                {siteConfig.portrait ? (
+                  <div className="relative size-16 shrink-0 overflow-hidden rounded-2xl bg-[radial-gradient(circle_at_50%_30%,var(--brand-soft),var(--brand))]">
+                    <Image
+                      src={siteConfig.portrait.src}
+                      alt=""
+                      width={siteConfig.portrait.width}
+                      height={siteConfig.portrait.height}
+                      sizes="128px"
+                      className="absolute top-[4%] left-1/2 h-[200%] w-auto max-w-none -translate-x-1/2"
+                    />
+                  </div>
+                ) : (
+                  <Monogram className="size-16 text-foreground" />
+                )}
                 <div>
                   <p className="text-lg font-semibold tracking-[-0.02em] text-foreground">{siteConfig.name}</p>
                   <p className="text-sm text-muted-foreground">{siteConfig.role}</p>

@@ -2,10 +2,10 @@
 
 import { View } from "@react-three/drei";
 
-import { AmbientScene, FrameScene, HeroScene, PlatformScene, StairsScene } from "./scenes";
+import { AmbientScene, FrameScene, HeroScene, PlatformScene, StairsScene, type PortraitSpec } from "./scenes";
 
 export type SlotProps =
-  | { scene: "hero"; rootId: string; anchorId: string; centerpiece?: boolean }
+  | { scene: "hero"; rootId: string; anchorId: string; portrait?: PortraitSpec | null }
   | { scene: "stairs"; progressId: string }
   | { scene: "platform" }
   | { scene: "ambient"; seed?: number; count?: number }
@@ -14,7 +14,7 @@ export type SlotProps =
 function SceneFor(props: SlotProps) {
   switch (props.scene) {
     case "hero":
-      return <HeroScene rootId={props.rootId} anchorId={props.anchorId} centerpiece={props.centerpiece} />;
+      return <HeroScene rootId={props.rootId} anchorId={props.anchorId} portrait={props.portrait} />;
     case "stairs":
       return <StairsScene progressId={props.progressId} />;
     case "platform":

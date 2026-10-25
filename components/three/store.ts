@@ -18,6 +18,8 @@ type SceneState = {
   quality: SceneQuality;
   /** True once the WebGL canvas has mounted successfully. */
   gl: boolean;
+  /** True once the hero portrait texture is drawn in 3D (the HTML image can fade out). */
+  portrait3d: boolean;
 };
 
 const state: SceneState = {
@@ -26,6 +28,7 @@ const state: SceneState = {
   reduced: false,
   quality: "high",
   gl: false,
+  portrait3d: false,
 };
 
 const listeners = new Set<() => void>();

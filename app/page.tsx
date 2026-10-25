@@ -21,6 +21,7 @@ const jsonLd = {
       jobTitle: siteConfig.role,
       description: siteConfig.description,
       url: siteConfig.url,
+      ...(siteConfig.portrait && { image: absoluteUrl(siteConfig.portrait.src) }),
       email: `mailto:${siteConfig.email}`,
       address: { "@type": "PostalAddress", addressLocality: "Lahore", addressCountry: "PK" },
       worksFor: { "@type": "Organization", name: siteConfig.currently.company },

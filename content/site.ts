@@ -28,11 +28,17 @@ export const siteConfig = {
   /** Short titles for the hero's rotating serif line. */
   heroRoles: ["Creative Executive", "Graphic Designer", "UI/UX Designer", "Brand Strategist"],
   /**
-   * Cut-out portrait for the hero (transparent PNG in /public), e.g.
-   * { src: "/portrait.png", width: 1200, height: 1500 }. While null, the hero
-   * centres on the 3D clay sculpture instead.
+   * Cut-out portrait for the hero (transparent WebP in /public). `glow` is a
+   * blurred silhouette used for the halo; `og` a PNG for the social card.
+   * Set to null to show the 3D clay sculpture instead.
    */
-  portrait: null as null | { src: string; width: number; height: number },
+  portrait: {
+    src: "/portrait/sheheryar.webp",
+    width: 904,
+    height: 1200,
+    glow: "/portrait/sheheryar-glow.webp",
+    og: "/portrait/sheheryar-og.png",
+  } as null | { src: string; width: number; height: number; glow: string; og: string },
   /** Brands from the case studies, shown as wordmarks under the hero. */
   brands: [
     { name: "Ashwheelz", logo: { src: "/brands/ashwheelz-logo.webp", width: 963, height: 831 } },

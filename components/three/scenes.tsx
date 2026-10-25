@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
-import { PerspectiveCamera, RoundedBox } from "@react-three/drei";
+import { PerspectiveCamera, RoundedBox, useTexture } from "@react-three/drei";
 
+import { sceneStore, useScene } from "./store";
 import {
   Ball,
   Blob,
@@ -43,16 +44,82 @@ function sectionProgress(id: string) {
 
 const STAGE_UNITS = 4; // the stage composition is authored 4 units tall
 
+export type PortraitSpec = { src: string; glow: string; aspect: number };
+
+/**
+ * The cut-out portrait as a plane inside the scene, so arch spheres can pass
+ * in front of and behind it. It rises in, breathes gently and carries a soft
+ * tinted halo made from a blurred silhouette.
+ */
+function Portrait({ spec }: { spec: PortraitSpec }) {
+  const p = usePalette();
+  const theme = useScene((s) => s.theme);
+  const reduced = useReduced();
+  const [map, glowMap] = useTexture([spec.src, spec.glow], (textures) => {
+    const [photo, silhouette] = textures as THREE.Texture[];
+    photo.colorSpace = THREE.SRGBColorSpace;
+    photo.anisotropy = 4;
+    silhouette.colorSpace = THREE.NoColorSpace;
+  });
+  const group = useRef<THREE.Group>(null);
+  const photo = useRef<THREE.MeshBasicMaterial>(null);
+  const halo = useRef<THREE.MeshBasicMaterial>(null);
+  const appear = useRef(0);
+  const height = STAGE_UNITS;
+  const width = height * spec.aspect;
+  const haloStrength = theme === "dark" ? 0.7 : 0.55;
+
+  useEffect(() => {
+    sceneStore.set({ portrait3d: true });
+    return () => sceneStore.set({ portrait3d: false });
+  }, []);
+
+  useFrame((state, delta) => {
+    appear.current = reduced ? 1 : Math.min(1, appear.current + delta / 1.3);
+    const e = 1 - (1 - appear.current) ** 3;
+    const t = state.clock.elapsedTime;
+    if (photo.current) photo.current.opacity = e;
+    if (halo.current) halo.current.opacity = e * haloStrength * (reduced ? 1 : 0.85 + Math.sin(t * 1.2) * 0.15);
+    if (group.current) {
+      group.current.position.y = (1 - e) * -0.45 + (reduced ? 0 : Math.sin(t * 0.7) * 0.025);
+      group.current.scale.setScalar(0.94 + 0.06 * e);
+    }
+  });
+
+  return (
+    <group ref={group}>
+      <mesh position={[0, -2 + height / 2 + 0.1, -0.35]} scale={[width * 1.3, height * 1.14, 1]}>
+        <planeGeometry />
+        <meshBasicMaterial
+          ref={halo}
+          color={theme === "dark" ? p.glow : p.greens[0]}
+          alphaMap={glowMap}
+          transparent
+          opacity={0}
+          depthWrite={false}
+          toneMapped={false}
+          fog={false}
+        />
+      </mesh>
+      <mesh position={[0, -2 + height / 2, 0]} scale={[width, height, 1]}>
+        <planeGeometry />
+        <meshBasicMaterial ref={photo} map={map} transparent opacity={0} depthWrite={false} toneMapped={false} fog={false} />
+      </mesh>
+    </group>
+  );
+}
+
 export function HeroScene({
   rootId,
   anchorId,
-  centerpiece = true,
+  portrait = null,
 }: {
   rootId: string;
   anchorId: string;
-  /** The breathing sculpture; hidden when a portrait fills the stage. */
-  centerpiece?: boolean;
+  /** Cut-out portrait drawn in the scene; without it a clay sculpture fills the stage. */
+  portrait?: PortraitSpec | null;
 }) {
+  const centerpiece = !portrait;
   const p = usePalette();
   const quality = useQuality();
   const reduced = useReduced();
@@ -72,14 +139,18 @@ export function HeroScene({
       const color = colors[Math.floor(rand() * colors.length)];
       const finish: Finish = color === p.beiges[0] || color === p.beiges[1] ? "foam" : rand() > 0.85 ? "gloss" : "clay";
       return {
-        position: [Math.cos(angle) * (2.25 + jitter), -2 + Math.sin(angle) * (3.65 + jitter), (rand() - 0.5) * 0.9] as THREE.Vector3Tuple,
+        position: [
+          Math.cos(angle) * (2.25 + jitter),
+          -2 + Math.sin(angle) * (3.65 + jitter),
+          centerpiece ? (rand() - 0.5) * 0.9 : Math.sin(angle) > 0.5 ? -0.55 - rand() * 0.7 : 0.15 + rand() * 0.6,
+        ] as THREE.Vector3Tuple,
         scale: 0.2 + rand() * 0.36 + (Math.sin(t * Math.PI) < 0.35 ? 0.12 : 0),
         color,
         finish,
         speed: 0.6 + rand() * 0.8,
       };
     });
-  }, [p, quality]);
+  }, [p, quality, centerpiece]);
 
   const floaters = useMemo(() => {
     const rand = seeded(7);
@@ -111,7 +182,7 @@ export function HeroScene({
     <>
       <Camera />
       <Studio />
-      <PointerParallax strength={0.16}>
+      <PointerParallax strength={portrait ? 0.11 : 0.16}>
         <group ref={stage}>
           {/* Arch */}
           {arch.map((s, i) => (
@@ -122,18 +193,24 @@ export function HeroScene({
           <Blob position={[-2.15, -1.75, 0.3]} scale={0.78} color={p.greens[1]} distort={0.38} />
           <Blob position={[2.2, -1.85, 0.1]} scale={0.66} color={p.beiges[0]} distort={0.3} speed={1} />
 
-          {/* Centrepiece — the portrait slot until a photo is supplied */}
-          <Drift speed={0.9} intensity={0.5}>
-            {centerpiece && <Blob position={[0, -0.35, 0.2]} scale={1.08} color={p.greens[0]} distort={0.36} />}
-            <mesh ref={ring} position={[0, -0.35, 0.2]} rotation={[1.15, 0.2, 0]}>
-              <torusGeometry args={[1.62, 0.045, 24, 160]} />
-              <meshPhysicalMaterial color={p.cream} roughness={0.25} clearcoat={1} />
-            </mesh>
-            <group ref={moon} position={[0, -0.35, 0.2]}>
-              <Ball position={[1.55, 0.55, 0]} scale={0.3} color={p.beiges[1]} finish="foam" />
-              <Ball position={[-1.35, -0.75, 0.2]} scale={0.17} color={p.greens[2]} finish="gloss" />
-            </group>
-          </Drift>
+          {portrait ? (
+            <Suspense fallback={null}>
+              <Portrait spec={portrait} />
+            </Suspense>
+          ) : (
+            /* Centrepiece — fills the stage when there is no portrait */
+            <Drift speed={0.9} intensity={0.5}>
+              <Blob position={[0, -0.35, 0.2]} scale={1.08} color={p.greens[0]} distort={0.36} />
+              <mesh ref={ring} position={[0, -0.35, 0.2]} rotation={[1.15, 0.2, 0]}>
+                <torusGeometry args={[1.62, 0.045, 24, 160]} />
+                <meshPhysicalMaterial color={p.cream} roughness={0.25} clearcoat={1} />
+              </mesh>
+              <group ref={moon} position={[0, -0.35, 0.2]}>
+                <Ball position={[1.55, 0.55, 0]} scale={0.3} color={p.beiges[1]} finish="foam" />
+                <Ball position={[-1.35, -0.75, 0.2]} scale={0.17} color={p.greens[2]} finish="gloss" />
+              </group>
+            </Drift>
+          )}
           <SoftShadow position={[0, -2.05, -0.4]} scale={[4.4, 0.9, 1]} opacity={0.3} />
         </group>
 

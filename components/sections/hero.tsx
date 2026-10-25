@@ -12,6 +12,7 @@ import { Magnetic } from "@/components/motion/magnetic";
 import { SplitText } from "@/components/motion/split-text";
 import { useIntro } from "@/components/providers/intro";
 import { SceneSlot } from "@/components/three/scene-slot";
+import { useScene } from "@/components/three/store";
 import { Button } from "@/components/ui/button";
 import { stats } from "@/content/profile";
 import { siteConfig } from "@/content/site";
@@ -26,6 +27,8 @@ export function Hero() {
   const { ready } = useIntro();
   const state = ready ? "show" : "hidden";
   const portrait = siteConfig.portrait;
+  // Once the WebGL portrait is drawn, the server-rendered image steps aside.
+  const portrait3d = useScene((s) => s.portrait3d);
 
   return (
     <section
@@ -38,7 +41,13 @@ export function Hero() {
         <div className="absolute top-[62%] left-1/2 size-[min(80vw,720px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_40%_35%,var(--brand-soft),transparent_65%)] opacity-40 blur-3xl" />
       </div>
 
-      <SceneSlot scene="hero" rootId="hero" anchorId="hero-stage" centerpiece={!portrait} className="absolute inset-0" />
+      <SceneSlot
+        scene="hero"
+        rootId="hero"
+        anchorId="hero-stage"
+        portrait={portrait && { src: portrait.src, glow: portrait.glow, aspect: portrait.width / portrait.height }}
+        className="absolute inset-0"
+      />
 
       <div className="container-page relative flex min-h-[calc(100svh-var(--header-h))] flex-col pb-8">
         <motion.div
@@ -99,7 +108,7 @@ export function Hero() {
                 alt={`Portrait of ${siteConfig.name}`}
                 priority
                 sizes="(min-width: 1024px) 34vw, 90vw"
-                className="absolute inset-x-0 bottom-0 mx-auto h-full w-auto object-contain object-bottom"
+                className={`absolute inset-x-0 bottom-0 mx-auto h-full w-auto object-contain object-bottom transition-opacity duration-700 ${portrait3d ? "opacity-0" : "opacity-100"}`}
               />
             )}
           </div>
